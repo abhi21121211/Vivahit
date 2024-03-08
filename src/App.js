@@ -6,7 +6,7 @@ import CryptoChart from './components/CryptoChart';
 function App() {
   return (
     <div className="App">
-      <Dashboard />
+      {/* <Dashboard /> */}
       <CryptoChart/>
     </div>
   );

@@ -1,0 +1,33 @@
+.crypto-chart-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .crypto-select {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .chart-container {
+    width: 100%;
+    overflow-x: auto;
+    max-width: 100%; /* Ensure the chart container doesn't exceed the screen width */
+  }
+  
+  .error {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive styles */
+  @media only screen and (max-width: 600px) {
+    .crypto-chart-container {
+      padding: 10px;
+    }
+  }
+  

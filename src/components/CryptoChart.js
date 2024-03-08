@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Chart from 'chart.js/auto';
 import 'chartjs-adapter-date-fns';
-
+import './CryptoChart.css'; // Import CSS file for styling
 
 const CryptoChart = () => {
   const [cryptoList, setCryptoList] = useState([]);
   const [selectedCrypto, setSelectedCrypto] = useState('');
-  const [chartData, setChartData] = useState([]);
+  const [chartInstance, setChartInstance] = useState(null); // State to store Chart instance
+  const [chartData, setChartData] = useState();
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchCryptoList = async () => {
@@ -27,7 +29,14 @@ const CryptoChart = () => {
       const response = await axios.get(`https://api.polygon.io/v2/aggs/ticker/${cryptoTicker}/range/1/day/2023-01-09/2023-01-09?adjusted=true&sort=asc&limit=120&apiKey=sEJVHAc9hHkQ28Il5zikoqhWP5JB334d`);
       return response.data.results;
     } catch (error) {
-      console.error('Error fetching crypto chart data:', error);
+      if (error.response && error.response.status === 429) {
+        setError('You are making too many requests. Please try again after waiting for one minute.');
+        setTimeout(() => {
+          setError('');
+        }, 30000); // 30 seconds
+      } else {
+        console.error('Error fetching crypto chart data:', error);
+      }
       return [];
     }
   };
@@ -36,57 +45,54 @@ const CryptoChart = () => {
     setSelectedCrypto(cryptoTicker);
     const data = await fetchChartData(cryptoTicker);
     setChartData(data);
-    console.log(data)
+    console.log(data);
+    
+    // Destroy existing Chart instance if it exists
+    if (chartInstance) {
+      chartInstance.destroy();
+    }
+    
     renderChart(data);
   };
-
- 
 
   const renderChart = (data) => {
     const ctx = document.getElementById('cryptoChart');
     
-    // Extracting data for each category
-    const openPrices = data.map(item => item.o);
-    const highPrices = data.map(item => item.h);
-    const lowPrices = data.map(item => item.l);
-    const closePrices = data.map(item => item.c);
-    const volumeWeightedAverages = data.map(item => item.vw);
-  
     // Constructing the chart data
     const chartData = {
       labels: data.map(item => new Date(item.t)),
       datasets: [
         {
           label: 'Open',
-          data: openPrices,
+          data: data.map(item => item.o),
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1
         },
         {
           label: 'High',
-          data: highPrices,
+          data: data.map(item => item.h),
           backgroundColor: 'rgba(54, 162, 235, 0.2)',
           borderColor: 'rgba(54, 162, 235, 1)',
           borderWidth: 1
         },
         {
           label: 'Low',
-          data: lowPrices,
+          data: data.map(item => item.l),
           backgroundColor: 'rgba(255, 206, 86, 0.2)',
           borderColor: 'rgba(255, 206, 86, 1)',
           borderWidth: 1
         },
         {
           label: 'Close',
-          data: closePrices,
+          data: data.map(item => item.c),
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1
         },
         {
           label: 'Volume Weighted Average',
-          data: volumeWeightedAverages,
+          data: data.map(item => item.vw),
           backgroundColor: 'rgba(153, 102, 255, 0.2)',
           borderColor: 'rgba(153, 102, 255, 1)',
           borderWidth: 1
@@ -94,13 +100,18 @@ const CryptoChart = () => {
       ]
     };
   
-    new Chart(ctx, {
+    // Create new Chart instance
+    const newChartInstance = new Chart(ctx, {
       type: 'bar',
       data: chartData,
       options: {
         scales: {
           y: {
-            beginAtZero: true
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Price'
+            }
           },
           x: {
             type: 'time',
@@ -111,21 +122,22 @@ const CryptoChart = () => {
         }
       }
     });
+  
+    // Set the new Chart instance to state
+    setChartInstance(newChartInstance);
   };
-  
-  
-  
 
   return (
-    <div>
+    <div className="crypto-chart-container">
       <h1>Cryptocurrency Chart</h1>
-      <select value={selectedCrypto} onChange={(e) => handleCryptoChange(e.target.value)}>
+      {error && <div className="error">{error}</div>}
+      <select className="crypto-select" value={selectedCrypto} onChange={(e) => handleCryptoChange(e.target.value)}>
         <option value="">Select a cryptocurrency</option>
         {cryptoList.map((crypto) => (
           <option key={crypto.T} value={crypto.T}>{crypto.T}</option>
         ))}
       </select>
-      <div>
+      <div className="chart-container">
         <canvas id="cryptoChart" width="800" height="400"></canvas>
       </div>
     </div>
@@ -133,9 +145,3 @@ const CryptoChart = () => {
 };
 
 export default CryptoChart;
-
-
-
-
-
-
