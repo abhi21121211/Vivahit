@@ -1,0 +1,44 @@
+.crypto-dashboard {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .coins-list {
+    margin-bottom: 20px;
+  }
+  
+  .coins-list table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .coins-list th,
+  .coins-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+  }
+  
+  .coins-list th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    text-align: left;
+  }
+  
+  .coins-list tbody tr:hover {
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+  
+  .coin-details img {
+    max-width: 100px;
+    margin-bottom: 10px;
+  }
+  
+  .live-price-history canvas {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+  }
+  
