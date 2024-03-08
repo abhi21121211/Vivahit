@@ -44,27 +44,54 @@ const CryptoChart = () => {
 
   const renderChart = (data) => {
     const ctx = document.getElementById('cryptoChart');
+    
+    // Extracting data for each category
+    const openPrices = data.map(item => item.o);
+    const highPrices = data.map(item => item.h);
+    const lowPrices = data.map(item => item.l);
+    const closePrices = data.map(item => item.c);
+    const volumeWeightedAverages = data.map(item => item.vw);
+  
+    // Constructing the chart data
     const chartData = {
-      labels: ['Open', 'High', 'Low', 'Close', 'Volume Weighted Average'],
-      datasets: [{
-        label: 'Aggregates',
-        data: data.map(item => [item.o, item.h, item.l, item.c, item.vw]),
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)', // Open
-          'rgba(54, 162, 235, 0.2)',  // High
-          'rgba(255, 206, 86, 0.2)',  // Low
-          'rgba(75, 192, 192, 0.2)',  // Close
-          'rgba(153, 102, 255, 0.2)'  // Volume Weighted Average
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)', // Open
-          'rgba(54, 162, 235, 1)',  // High
-          'rgba(255, 206, 86, 1)',  // Low
-          'rgba(75, 192, 192, 1)',  // Close
-          'rgba(153, 102, 255, 1)'  // Volume Weighted Average
-        ],
-        borderWidth: 1
-      }]
+      labels: data.map(item => new Date(item.t)),
+      datasets: [
+        {
+          label: 'Open',
+          data: openPrices,
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'High',
+          data: highPrices,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Low',
+          data: lowPrices,
+          backgroundColor: 'rgba(255, 206, 86, 0.2)',
+          borderColor: 'rgba(255, 206, 86, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Close',
+          data: closePrices,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        },
+        {
+          label: 'Volume Weighted Average',
+          data: volumeWeightedAverages,
+          backgroundColor: 'rgba(153, 102, 255, 0.2)',
+          borderColor: 'rgba(153, 102, 255, 1)',
+          borderWidth: 1
+        }
+      ]
     };
   
     new Chart(ctx, {
@@ -74,11 +101,18 @@ const CryptoChart = () => {
         scales: {
           y: {
             beginAtZero: true
+          },
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day'
+            }
           }
         }
       }
     });
   };
+  
   
   
 
