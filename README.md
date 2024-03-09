@@ -18,10 +18,8 @@ Check out the live demo of Vivahit: [Vivahit Demo](https://vivahit-one.vercel.ap
 ## Technologies Used
 
 - **Frontend:** React.js, CSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **Authentication:** JWT (JSON Web Tokens)
-- **Deployment:** Vercel (Frontend), Heroku (Backend), MongoDB Atlas (Database)
+- **Backend:**(https://www.livecoinwatch.com/tools/api)
+- **Deployment:** Vercel (Frontend)
 
 ## Getting Started
 
