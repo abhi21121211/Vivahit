@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
-
+import './LivePriceHistoryChart.css';
 const LivePriceHistoryChart = ({ priceHistory, timePeriod, timeInterval, setTimePeriod }) => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
@@ -75,14 +75,14 @@ const LivePriceHistoryChart = ({ priceHistory, timePeriod, timeInterval, setTime
   };
 
   return (
-    <div>
+    <div className="chart-container">
       {/* <label htmlFor="timePeriod">Select Time Period:</label>
       <select id="timePeriod" value={timePeriod} onChange={handleTimePeriodChange}>
         <option value="1 day">1 Day</option>
         <option value="1 week">1 Week</option>
         <option value="1 month">1 Month</option>
       </select> */}
-      <canvas ref={chartRef}></canvas>
+      <canvas  ref={chartRef}></canvas>
     </div>
   );
 };

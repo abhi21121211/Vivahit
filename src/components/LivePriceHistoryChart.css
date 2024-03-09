@@ -1,0 +1,13 @@
+/* LivePriceHistoryChart.css */
+.chart-container {
+    width: 100%;
+    height: 400px; /* Adjust height as needed */
+    margin-top: 40px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .chart-container {
+      height: 200px; /* Adjust height for smaller screens */
+    }
+  }
+  

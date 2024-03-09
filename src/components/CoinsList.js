@@ -1,16 +1,16 @@
 // CoinsList.js
 import React from 'react';
 import './CoinsList.css';
+
 const CoinsList = ({ coins, handleCoinClick }) => {
   return (
     <div className="coins-list">
-      <h2>Coins List</h2>
+    
       <table>
         <thead>
           <tr>
             <th>IMG</th>
             <th>Name</th>
-          
             <th>Code</th>
             <th>Rank</th>
             <th>Rate</th>
@@ -25,7 +25,6 @@ const CoinsList = ({ coins, handleCoinClick }) => {
                 <img src={coin.png32} alt={coin.name} />
               </td>
               <td>{coin.name}</td>
-             
               <td>{coin.code}</td>
               <td>{coin.rank}</td>
               <td>{coin.rate}</td>
