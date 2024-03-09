@@ -8,6 +8,8 @@ const CryptoDashboard = () => {
   const [coins, setCoins] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [priceHistory, setPriceHistory] = useState([]);
+  const [timePeriod, setTimePeriod] = useState('1 day');
+  const [timeInterval, setTimeInterval] = useState('1 hour');
 
   useEffect(() => {
     const fetchCoins = async () => {
@@ -29,7 +31,6 @@ const CryptoDashboard = () => {
         });
         const data = await response.json();
         setCoins(data);
-        console.log(coins)
       } catch (error) {
         console.error('Error fetching coins:', error);
       }
@@ -61,6 +62,7 @@ const CryptoDashboard = () => {
 
   const fetchPriceHistory = async (code) => {
     try {
+      const startDate = calculateStartDate();
       const response = await fetch('https://api.livecoinwatch.com/coins/single/history', {
         method: 'POST',
         headers: {
@@ -70,7 +72,7 @@ const CryptoDashboard = () => {
         body: JSON.stringify({
           currency: 'USD',
           code: code,
-          start: Date.now() - 86400000, // Last 24 hours
+          start: startDate,
           end: Date.now(),
           meta: true,
         }),
@@ -87,12 +89,29 @@ const CryptoDashboard = () => {
     fetchPriceHistory(code);
   };
 
+  const calculateStartDate = () => {
+    switch (timePeriod) {
+      case '1 day':
+        return Date.now() - 86400000;
+      case '1 week':
+        return Date.now() - 7 * 86400000;
+      case '1 month':
+        return Date.now() - 30 * 86400000;
+      default:
+        return Date.now() - 86400000; // Default to last 24 hours
+    }
+  };
+
   return (
     <div className="crypto-dashboard">
       <h1>Cryptocurrency Dashboard</h1>
       <CoinsList coins={coins} handleCoinClick={handleCoinClick} />
       <CoinDetails selectedCoin={selectedCoin} />
-      <LivePriceHistoryChart priceHistory={priceHistory} />
+      <LivePriceHistoryChart
+        priceHistory={priceHistory}
+        setTimePeriod={setTimePeriod}
+        setTimeInterval={setTimeInterval}
+      />
     </div>
   );
 };

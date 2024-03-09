@@ -1,10 +1,12 @@
 // LivePriceHistoryChart.js
-import React, { useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
 const LivePriceHistoryChart = ({ priceHistory }) => {
   const chartRef = useRef(null);
   const chartInstance = useRef(null);
+  const [timePeriod, setTimePeriod] = useState('1 day');
+  const [timeInterval, setTimeInterval] = useState('1 hour');
 
   useEffect(() => {
     if (!priceHistory.length) return;
@@ -37,7 +39,7 @@ const LivePriceHistoryChart = ({ priceHistory }) => {
           x: {
             type: 'time',
             time: {
-              unit: 'hour',
+              unit: getTimeUnit(),
             },
           },
         },
@@ -49,9 +51,43 @@ const LivePriceHistoryChart = ({ priceHistory }) => {
         chartInstance.current.destroy();
       }
     };
-  }, [priceHistory]);
+  }, [priceHistory, timePeriod, timeInterval]);
 
-  return <canvas ref={chartRef}></canvas>;
+  const handleTimePeriodChange = (event) => {
+    setTimePeriod(event.target.value);
+  };
+
+  const handleTimeIntervalChange = (event) => {
+    setTimeInterval(event.target.value);
+  };
+
+  const getTimeUnit = () => {
+    switch (timePeriod) {
+      case '1 day':
+        return timeInterval === '1 hour' ? 'hour' : 'minute';
+      case '1 week':
+        return 'day';
+      case '1 month':
+        return 'week';
+      default:
+        return 'day';
+    }
+  };
+
+  return (
+    <div>
+      <div>
+        <label htmlFor="timePeriod">Time Period:</label>
+        <select id="timePeriod" value={timePeriod} onChange={handleTimePeriodChange}>
+          <option value="1 day">1 Day</option>
+          <option value="1 week">1 Week</option>
+          <option value="1 month">1 Month</option>
+        </select>
+      </div>
+      
+      <canvas ref={chartRef}></canvas>
+    </div>
+  );
 };
 
 export default LivePriceHistoryChart;

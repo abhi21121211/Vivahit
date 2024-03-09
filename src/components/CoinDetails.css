@@ -11,6 +11,7 @@
   }
   
   .card-body {
+    display: flex;
     padding: 20px;
   }
   
@@ -20,8 +21,12 @@
   }
   
   .card-text {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    /* flex-direction: column; */
   }
   
   .coin-image {
@@ -33,6 +38,8 @@
   
   .detail-item {
     margin-bottom: 10px;
+
+
   }
   
   @media (max-width: 768px) {
