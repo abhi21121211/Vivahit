@@ -8,9 +8,10 @@ const CryptoDashboard = () => {
   const [coins, setCoins] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState(null);
   const [priceHistory, setPriceHistory] = useState([]);
-  const [timePeriod, setTimePeriod] = useState('1 day');
-  const [timeInterval, setTimeInterval] = useState('1 hour');
+  const [timePeriod, setTimePeriod] = useState('1 day'); // Add state for time period
+  const [timeInterval, setTimeInterval] = useState('1 hour'); // Add state for time interval
 
+  // Fetch coins effect
   useEffect(() => {
     const fetchCoins = async () => {
       try {
@@ -39,6 +40,7 @@ const CryptoDashboard = () => {
     fetchCoins();
   }, []);
 
+  // Fetch coin data effect
   const fetchCoinData = async (code) => {
     try {
       const response = await fetch('https://api.livecoinwatch.com/coins/single', {
@@ -60,9 +62,9 @@ const CryptoDashboard = () => {
     }
   };
 
+  // Fetch price history effect
   const fetchPriceHistory = async (code) => {
     try {
-      const startDate = calculateStartDate();
       const response = await fetch('https://api.livecoinwatch.com/coins/single/history', {
         method: 'POST',
         headers: {
@@ -72,7 +74,7 @@ const CryptoDashboard = () => {
         body: JSON.stringify({
           currency: 'USD',
           code: code,
-          start: startDate,
+          start: Date.now() - 86400000, // Last 24 hours
           end: Date.now(),
           meta: true,
         }),
@@ -84,22 +86,10 @@ const CryptoDashboard = () => {
     }
   };
 
+  // Handle coin click
   const handleCoinClick = (code) => {
     fetchCoinData(code);
     fetchPriceHistory(code);
-  };
-
-  const calculateStartDate = () => {
-    switch (timePeriod) {
-      case '1 day':
-        return Date.now() - 86400000;
-      case '1 week':
-        return Date.now() - 7 * 86400000;
-      case '1 month':
-        return Date.now() - 30 * 86400000;
-      default:
-        return Date.now() - 86400000; // Default to last 24 hours
-    }
   };
 
   return (
@@ -109,8 +99,9 @@ const CryptoDashboard = () => {
       <CoinDetails selectedCoin={selectedCoin} />
       <LivePriceHistoryChart
         priceHistory={priceHistory}
-        setTimePeriod={setTimePeriod}
-        setTimeInterval={setTimeInterval}
+        timePeriod={timePeriod} // Pass time period prop
+        timeInterval={timeInterval} // Pass time interval prop
+        setTimePeriod={setTimePeriod} // Pass setTimePeriod function prop
       />
     </div>
   );
