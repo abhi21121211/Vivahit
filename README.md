@@ -6,6 +6,9 @@ Vivahit is a matrimonial website where users can create profiles, search for pot
 
 Check out the live demo of Vivahit: [Vivahit Demo](https://vivahit-one.vercel.app/)
 
+## Video Explanation 
+(https://drive.google.com/file/d/1rRDBLk0qWlXni_ElsXYGINAtt5ZdP-vO/view?usp=sharing)
+
 ## Features
 
 - **User Authentication:** Users can sign up, log in, and log out securely.
