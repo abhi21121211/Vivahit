@@ -9,9 +9,18 @@ Check out the live demo of Vivahit: [Vivahit Demo](https://vivahit-one.vercel.ap
 ## Video Explanation 
 (https://drive.google.com/file/d/1rRDBLk0qWlXni_ElsXYGINAtt5ZdP-vO/view?usp=sharing)
 
+
+## Screenshots
+
+Here are some screenshots of the Vivahit website:
+
+![Screenshot 1](src/img/Screenshot%202024-03-09%20203116.png)
+![Screenshot 2](src/img/Screenshot%202024-03-09%20203131.png)
+![Screenshot 3](src/img/Screenshot%202024-03-09%20203144.png)
+
 ## Features
 
-- **User Authentication:** Users can sign up, log in, and log out securely.
+
 - **Profile Creation:** Users can create detailed profiles with information such as age, location, profession, and preferences.
 - **Search Functionality:** Users can search for potential matches based on various criteria such as age, location, religion, etc.
 - **Matching Algorithm:** Vivahit employs a matching algorithm to suggest compatible matches to users based on their profile information and preferences.
